@@ -6,7 +6,6 @@ from app.helpers.mysql import db
 class IngestService():
     def ingest_user(self, user_data):
         try:
-
             user = Users(data=user_data)
             db.session.add(user)
             db.session.commit()

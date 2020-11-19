@@ -1,7 +1,7 @@
 from . import app
 from flask import jsonify, request
 from .services.users import Users
-from .services.logs import Logs
+from .services.data import IDMdata
 from .services.ingest import IngestService
 from .settings import APP_NAME, APP_VERSION
 
@@ -30,22 +30,22 @@ def user_data():
     return jsonify(data=data), 200
 
 
-@app.route('/logs/distance/min', methods=['GET'])
+@app.route('/users/distance/min', methods=['GET'])
 def distance_min_data():
-    logs = Logs()
-    data = logs.get_min_distance()
+    idm_data = IDMdata()
+    data = idm_data.get_min_distance()
     return jsonify(min=data), 200
 
 
-@app.route('/logs/distance/max', methods=['GET'])
+@app.route('/users/distance/max', methods=['GET'])
 def distance_max_data():
-    logs = Logs()
-    data = logs.get_max_distance()
+    idm_data = IDMdata()
+    data = idm_data.get_max_distance()
     return jsonify(max=data), 200
 
 
 @app.route('/logs/requests/<string:iso_code>/avg', methods=['GET'])
 def requests_avg_data(iso_code):
-    logs = Logs()
-    data = logs.requests_avg_data(iso_code)
-    return jsonify(avg=str(data)), 200
+    idm_data = IDMdata()
+    data = idm_data.requests_avg_data(iso_code)
+    return jsonify(avg=data), 200

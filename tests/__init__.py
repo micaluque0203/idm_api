@@ -1,8 +1,8 @@
 import unittest
 from app import app
 from app.helpers.mysql import db
-from tests.test_users import UsersTest
-from tests.test_logs import LogsTest
+from tests.test_api import ApiTest
+#from tests.test_logs import LogsTest
 
 
 class Init(unittest.TestCase):
@@ -33,7 +33,6 @@ class Init(unittest.TestCase):
 
 
 Init()
-UsersTest()
-LogsTest()
+ApiTest()
 if __name__ == "__main__":
     unittest.main(warnings='ignore')

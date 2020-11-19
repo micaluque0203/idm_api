@@ -11,7 +11,6 @@ class Users(db.Model):
     timestamp = db.Column(db.DateTime())
 
     def __init__(self, data):
-        print("ROBIN", data)
         self.ip = data.get('ip')
         self.country = data.get('country_name')
         self.distance = data.get('distance')

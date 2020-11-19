@@ -5,23 +5,25 @@ from sqlalchemy import desc, asc, func
 from app.settings import QUERY_PATH
 
 
-class Logs():
+class IDMdata():
 
     def get_max_distance(self):
         mysql = MySQLhandler()
         query_path = QUERY_PATH + 'max.sql'
         query = read_file(query_path)
         data = mysql.get_data_by_query(query)
-        print("BATMAN", data)
-        return data
+        return data.distance
 
     def get_min_distance(self):
-        data = (db.session.query(Users).order_by(asc(Users.distance)).first())
+        mysql = MySQLhandler()
+        query_path = QUERY_PATH + 'min.sql'
+        query = read_file(query_path)
+        data = mysql.get_data_by_query(query)
         return data.distance
 
     def requests_avg_data(self, iso_code):
-
         mysql = MySQLhandler()
-        query = read_file(QUERY_PATH, iso_code)
+        query_path = QUERY_PATH + 'avg.sql'
+        query = read_file(query_path, iso_code)
         data = mysql.get_data_by_query(query)
-        return data
+        return data[0]

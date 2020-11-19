@@ -5,12 +5,13 @@ from freezegun import freeze_time
 from app.adapters.aws import AwsRequest
 from app.adapters.country import CountryRequest
 from tests.fixtures.mocks.mock_1 import AWS_IP_PREFIX, COUNTRY_INFO, COUNTRY_API
+from tests.fixtures.data.user_data import USER_1, USER_2, USER_3, USER_4
 from unittest.mock import patch
 import unittest
 import json
 
 
-class UsersTest(unittest.TestCase):
+class ApiTest(unittest.TestCase):
 
     def setUp(self):
         self.app = app
@@ -37,7 +38,6 @@ class UsersTest(unittest.TestCase):
         headers = {'user_id': '11233'}
         response = self.client.post("/users", json=data, headers=headers)
         expected_response = self.__read_response(response_name=1)
-
         self.assertTrue(info_country.called)
         self.assertTrue(data_ip.called)
         self.assertTrue(is_aws_ip.called)
@@ -53,3 +53,39 @@ class UsersTest(unittest.TestCase):
         filename = 'tests/fixtures/responses/response_{response_name}.json'.format(response_name=response_name)
         with open(filename, 'r') as lead_data:
             return json.load(lead_data)
+
+    def test_logs_from_US_return_avg_of_requests(self):
+        self.__create_log(USER_1)
+        self.__create_log(USER_2)
+        self.__create_log(USER_3)
+        response = self.client.get("/logs/requests/US/avg")
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.json == {'avg': 1.5})
+
+    def test_user_distance_return_max_from_AR(self):
+        self.__create_log(USER_1)
+        self.__create_log(USER_2)
+        response = self.client.get("/users/distance/max")
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.json == {'max': 10000})
+
+    def test_user_distance_return_min_from_AR(self):
+        self.__create_log(USER_1)
+        self.__create_log(USER_2)
+        response = self.client.get("/users/distance/min")
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.json == {'min': 8949})
+
+    def __create_log(self, data):
+        self.__add_user(data)
+        self.__add_log(data)
+
+    def __add_user(self, data):
+        user = Users(data=data)
+        db.session.add(user)
+        db.session.commit()
+
+    def __add_log(self, data):
+        log = Logs(data=data)
+        db.session.add(log)
+        db.session.commit()
