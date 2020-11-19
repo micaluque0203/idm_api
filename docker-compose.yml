@@ -1,0 +1,28 @@
+# ./docker-compose.yml
+version: '3'
+
+services:
+  idm-flask:
+    build: .
+    container_name: idm-flask
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - .:/var/www
+    depends_on:
+      - databases
+
+  databases:
+    image: mysql:5.7
+    container_name: databases
+    restart: always
+    hostname: databases
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+        - .migrations/init/init.sql:/data/application/init.sql
