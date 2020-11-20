@@ -2,7 +2,7 @@ from os import environ
 
 APP_NAME = environ.get('APP_NAME', 'idm')
 APP_VERSION = environ.get('VERSION', 'V1')
-APP_HOST = environ.get('APP_PORT', 'localhost')
+APP_HOST = environ.get('APP_HOST', 'localhost')
 APP_PORT = int(environ.get('APP_PORT', 8009))
 ENVIRONMENT = environ.get('ENVIRONMENT')
 DEBUG = environ.get('DEBUG', 'False')
