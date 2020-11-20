@@ -1,45 +1,55 @@
 # IDM API 
 
-RESTful microservise in flask framework 
+REST  microservice in Flask framework 
 
 ### Pre-requirements
 
 -add .env (reference in .env.template)
 
-## API + MYSQLDB
+## API
 
-# path/to/project/docker-compose build
-
-# path/to/project/docker-compose up
-
+```
+$ path/to/project/docker-compose build
+````
+```
+$ path/to/project/docker-compose up
+```
 
 ### ENDPOINTS
 
+create new user:
 ```
 POST /users
 ```
+min distance from AR in km:
 ```
 GET /users/distance/min
 ````
+max distance from AR in km:
 ```
 GET /users/distance/max
 ````
+average of requests by country:
 ```
-GET /logs/requests/{iso_code}/avg
+GET /logs/requests/{str:iso_code}/avg
 ````
 
 
-### TESTS
+## TESTS
 
+set path
 ```
-export PYTHONPATH=$(pwd)
+$ export PYTHONPATH=$(pwd)
 ````
+install dependencies
 ````
-# pipenv install 
+$ pipenv install 
 `````
+run test
 ```
-# pipenv run coverage run --source app tests/__init__.py
+$ pipenv run coverage run --source app tests/__init__.py
 `````
+code coverage
 ````
-# pipenv run coverage report
+$ pipenv run coverage report
 ````
